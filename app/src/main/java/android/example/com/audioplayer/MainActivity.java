@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,8 +18,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button playButton = (Button) findViewById(R.id.play_button);
+        TextView songDuration = (TextView) findViewById(R.id.song_duration);
 
-        final MediaPlayer player = MediaPlayer.create(getApplicationContext(), R.raw.SoundHelix_Song_1);
+        final MediaPlayer player = MediaPlayer.create(getApplicationContext(), R.raw.soundhelix);
+
+        double time = player.getDuration();
+        String duration = String.format("Song Duration : %d min, %d sec",
+                TimeUnit.MILLISECONDS.toMinutes((long) time),
+                TimeUnit.MILLISECONDS.toSeconds((long) time) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) time)));
+
+        songDuration.setText(duration);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
